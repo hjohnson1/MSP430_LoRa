@@ -31,19 +31,13 @@ int main(void)
 
     while (1)
     {
-        //LoRa pins
         P1DIR |= BIT0;
         P1OUT &= ~BIT0;
+        P1OUT ^= BIT0;
 
-        //P5DIR |= BIT3;
-        //P5DIR |= BIT2;
-        //P4DIR |= BIT5;
-        //P3DIR |= BIT4 | BIT6;
-
-        //P5OUT |= BIT3;
-        //P3OUT |= BIT4 | BIT6;
-        //P5OUT |= BIT2;
-        //P4OUT |= BIT5;
+        P5DIR |= BIT4; //power to LoRa
+        P5OUT &= ~BIT4;
+        P5OUT ^= BIT4;
 
         //temperature sensor
         P1OUT |= BIT4;                                 // P1.4 output high
@@ -88,14 +82,12 @@ int main(void)
         P1OUT |= BIT4;
 
         //send over LoRa
-        // send wireless data
-        //P3OUT &= ~BIT4;
         __delay_cycles(1000);
-        //while(!init_wireless());
-        //wireless_send(finalTemp, 2); // send data
-        //P3OUT |= BIT4;
+        while(!init_wireless());
+        wireless_send(finalTemp, 2); // send data
 
-        //__delay_cycles(1000);
+        P5OUT ^= BIT4;
+        P1OUT ^= BIT0;
 
         sleep_10_min();
 

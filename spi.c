@@ -83,11 +83,10 @@ void initSPI()
 
 void initGPIO_SPI()
 {
-
     // Configure SPI
     P1SEL0 |= BIT5 | BIT6 | BIT7;
 
-    SLAVE_CS_DIR |= SLAVE_CS_PIN;
+    SLAVE_CS_DIR |= SLAVE_CS_PIN; //p5.1
     SLAVE_CS_OUT |= SLAVE_CS_PIN;
 }
 

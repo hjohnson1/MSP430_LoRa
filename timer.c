@@ -16,7 +16,7 @@ void init_timer(void) {
 
     // RTC count re-load compare value at 32.
     // 1024/32768 * 19200 = 600 sec -> 10 minutes.
-    RTCMOD = 19200;//1000 for testing gives 31 seconds.
+    RTCMOD = 100;//19200;//1000 for testing gives 31 seconds.
 
     // Source = 32kHz crystal, divided by 1024
     RTCCTL = RTCSS__XT1CLK | RTCSR | RTCPS__1024 | RTCIE;
@@ -24,18 +24,18 @@ void init_timer(void) {
 
 void sleep_pins(void) {
 
-    P1DIR |= 0xff;//f3; // don't touch SCL or SDA
+    P1DIR = 0xff;//|= 0xf3; // don't touch SCL or SDA (NOTE: Not using for this project)
     P2DIR = 0xff;
     P3DIR = 0xff;
     P4DIR = 0xff;
     P5DIR = 0xff;
     P6DIR = 0xff;
 
-    P1OUT = 0x00;
+    P1OUT = 0x00;//10; //00010000 P1.4 temp sensor
     P2OUT = 0x00;
     P3OUT = 0x00;//50; //01010000
     P4OUT = 0x00;//20; //00100000
-    P5OUT = 0x00;//4; //00000100
+    P5OUT = 0x00;//04; //00000100
     P6OUT = 0x00;
 
     UCB0CTLW0 = UCSWRST; // put euscib0 into reset
