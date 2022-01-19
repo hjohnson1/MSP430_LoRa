@@ -138,3 +138,36 @@ void wireless_send(uint8_t* data, uint8_t len) {
     setModeIdle(); // go back into idle mode
 }
 
+uint8_t add_crc(uint8_t buffer[], uint16_t bufferLength, uint8_t crcType){
+    uint8_t i;
+      uint16_t crc;
+      uint16_t polynomial;
+
+      polynomial = (crcType == IBM) ? 0xC002 : 0x8810; //0x8005 : 0x1021;
+      crc = (crcType == IBM) ? 0xFFFF : 0x1D0F;
+
+      for(i = 0; i < bufferLength; i++){
+        crc = ComputeCrc(crc, buffer[i], polynomial);
+      }
+      if(crcType == IBM){
+        return crc;
+      }
+      else{
+        return (uint16_t)(~crc);
+      }
+}
+
+uint16_t ComputeCrc (uint16_t crc, uint8_t data, uint16_t poly){
+  uint8_t i;
+  for (i = 0; i < 8; i++){
+    if( ( ( ( crc & 0x8000 ) >> 8 ) ^ (data & 0x80) ) != 0 ){
+      crc <<= 1;
+      crc ^= poly;
+      }
+      else{
+        crc <<= 1;
+      }
+    data <<= 1;
+  }
+  return crc;
+}
