@@ -242,7 +242,7 @@ bool init_wireless(void);
 
 void wireless_send(uint8_t* data, uint8_t len);
 
-uint8_t add_crc(uint8_t buffer[], uint16_t bufferLength, uint8_t crcType);
+uint16_t add_crc(uint8_t buffer[], uint16_t bufferLength, uint8_t crcType);
 uint16_t ComputeCrc (uint16_t crc, uint8_t data, uint16_t poly);
 
 #endif /* WIRELESS_H_ */

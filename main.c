@@ -19,7 +19,7 @@ int main(void)
     uint8_t lsbTemp;
     uint8_t raw;
     uint8_t decimalPlaceValue;
-    uint8_t finalTemp[3] = {0x00};
+    uint8_t finalTemp[4] = {0x00};
 
     WDTCTL = WDTPW | WDTHOLD;                     // Stop watchdog timer
 
@@ -84,7 +84,11 @@ int main(void)
         //send over LoRa
         __delay_cycles(1000);
         while(!init_wireless());
-        finalTemp[2] = add_crc(finalTemp, 2, 1);
+
+        uint16_t CrC = add_crc(finalTemp, 2, 1);
+        finalTemp[2] = (CrC & 0xFF00) >> 8;
+        finalTemp[3] = (CrC & 0x00FF);
+
         wireless_send(finalTemp, 3); // send data
 
         //TEST: without, should be turned off in sleep func

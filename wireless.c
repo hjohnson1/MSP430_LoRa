@@ -138,7 +138,7 @@ void wireless_send(uint8_t* data, uint8_t len) {
     setModeIdle(); // go back into idle mode
 }
 
-uint8_t add_crc(uint8_t buffer[], uint16_t bufferLength, uint8_t crcType){
+uint16_t add_crc(uint8_t buffer[], uint16_t bufferLength, uint8_t crcType){
     uint8_t i;
       uint16_t crc;
       uint16_t polynomial;
