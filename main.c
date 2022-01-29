@@ -35,13 +35,18 @@ int main(void)
         P1OUT &= ~BIT0;
         P1OUT ^= BIT0; //LED1
 
-        P5DIR |= BIT4; //power to LoRa
-        P5OUT &= ~BIT4;
-        P5OUT ^= BIT4;
 
-        //temperature sensor
+        P5DIR |= BIT4; //power to LoRa
+        P5OUT |= BIT4;
+        P4DIR |= BIT5; //in series to add current
+        P4OUT |= BIT5;
+
+        P5DIR |= BIT2; //power to sensor
+        P5OUT |= BIT2;
+
+        //temperature sensor data line
         P1OUT |= BIT4;                                 // P1.4 output high
-        P1DIR = 0xFF;                                  // P1.4 as output
+        P1DIR |= BIT4;                                  // P1.4 as output
 
         __delay_cycles(1000); //needs time to get the crystal working properly
 
@@ -89,10 +94,10 @@ int main(void)
         finalTemp[2] = (CrC & 0xFF00) >> 8;
         finalTemp[3] = (CrC & 0x00FF);
 
-        wireless_send(finalTemp, 3); // send data
+        wireless_send(finalTemp, 4); // send data
 
         //TEST: without, should be turned off in sleep func
-        P5OUT ^= BIT4; //LoRa power off
+        //P5OUT ^= BIT4; //LoRa power off
         P1OUT ^= BIT0; //LED off
 
         sleep_10_min();
